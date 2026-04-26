@@ -305,6 +305,6 @@ switch (characterType) {
 
 ## 👥 기여자
 
-- **Backend Developer**: Yeongju Project Team
+- **Backend Developer**: junha seo
 
 
