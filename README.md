@@ -276,45 +276,6 @@ switch (characterType) {
 - **accommodations**: 숙박시설 정보
 - **conversation_history**: LLM 대화 이력
 
----
-
-## 🧪 테스트
-
-### 초기 데이터 자동 생성
-애플리케이션 최초 실행 시 `InitDataLoader`가 다음 데이터를 자동 생성합니다:
-- 8개 장소 (소수서원, 박물관, 선비촌, 신단, 주막, 무섬마을, 부석사, 순흥향교)
-- 6개 미션
-- 3개 밀서 조각
-
-### 테스트 시나리오 예시
-
-#### 1. 회원가입
-```bash
-POST /api/v1/users
-{
-  "nickname": "선비여행자"
-}
-```
-
-#### 2. 소수서원 미션 조회
-```bash
-GET /api/v1/missions/location/SOSU_SEOWON?userId=1
-```
-
-#### 3. 미션 답안 제출
-```bash
-POST /api/v1/missions/submit
-{
-  "userId": 1,
-  "missionId": 1,
-  "answer": "숙수사"
-}
-```
-
-#### 4. 근처 맛집 조회 (GPS)
-```bash
-GET /api/v1/restaurants/nearby?latitude=36.9956&longitude=128.6289&radiusKm=2.0
-```
 
 ---
 
@@ -342,44 +303,8 @@ GET /api/v1/restaurants/nearby?latitude=36.9956&longitude=128.6289&radiusKm=2.0
 
 ---
 
-## 🔧 트러블슈팅
-
-### 1. MySQL 연결 오류
-```
-Error: Access denied for user
-```
-**해결**: `application.yml`의 username/password 확인
-
-### 2. Gemini API 호출 실패
-```
-Error: API key not valid
-```
-**해결**: `application.yml`에 유효한 Gemini API Key 입력
-
-### 3. 공공데이터 API 호출 제한
-```
-Error: SERVICE_KEY_IS_NOT_REGISTERED_ERROR
-```
-**해결**: 공공데이터포털에서 API 키 신청 및 승인 대기
-
----
-
-## 📝 라이센스
-
-이 프로젝트는 교육 목적으로 개발되었습니다.
-
----
-
 ## 👥 기여자
 
 - **Backend Developer**: Yeongju Project Team
 
----
 
-## 📞 문의
-
-프로젝트 관련 문의사항은 Issues 탭을 이용해주세요.
-
----
-
-**🏛️ 영주의 역사를 함께 걸어보세요!**
