@@ -279,10 +279,10 @@ switch (characterType) {
 - 서버 시간 기준 20시 이후 순흥향교 활성화
 - 실시간 시간대 반영
 
+### 5. Jenkins를 사용한 CI/CD 적용
+
 ---
 
 ## 👥 기여자
 
 - **Backend Developer**: junha seo
-
-
