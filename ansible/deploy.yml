@@ -1,0 +1,46 @@
+- name: Deploy yeongjuLog
+  hosts: app
+  vars:
+    image_repo: seojunhayo/yeonjulog
+    container_name: yeongjulog
+    env_file: /opt/yeongjulog/app.env
+    health_url: http://localhost:8080/actuator/health
+    run_opts: "--network yeongju-net --restart unless-stopped -p 8080:8080 --env-file {{ env_file }}"
+
+  tasks:
+    - name: 현재 실행 중인 이미지 기록 (롤백 대비용)
+      command: docker inspect --format '{% raw %}{{.Config.Image}}{% endraw %}' {{ container_name }}
+      register: prev
+      failed_when: false
+      changed_when: false
+
+    - name: 새 이미지 pull
+      command: docker pull {{ image_repo }}:{{ image_tag }}
+
+    - block:
+        - name: 기존 컨테이너 제거
+          command: docker rm -f {{ container_name }}
+          failed_when: false
+
+        - name: 새 컨테이너 실행
+          command: docker run -d --name {{ container_name }} {{ run_opts }} {{ image_repo }}:{{ image_tag }}
+
+        - name: 헬스체크 (6초 간격으로 최대 20번 = 2분간 확인)
+          uri:
+            url: "{{ health_url }}"
+            status_code: 200
+          register: health
+          retries: 20
+          delay: 6
+          until: health.status == 200
+
+      rescue:
+        - name: 헬스체크 실패 시 이전 버전으로 자동 롤백
+          shell: |
+            docker rm -f {{ container_name }}
+            docker run -d --name {{ container_name }} {{ run_opts }} {{ prev.stdout }}
+          when: prev.rc == 0
+
+        - name: 파이프라인 실패 처리
+          fail:
+            msg: "{{ image_tag }} 헬스체크 실패로 인해 {{ prev.stdout if prev.rc == 0 else '롤백 대상 없음' }}(으)로 롤백 복구되었습니다."
