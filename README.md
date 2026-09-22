@@ -120,29 +120,7 @@ src/main/java/com/yeongju/
 CREATE DATABASE yeongju_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-### 3. 설정 파일 수정
-
-`src/main/resources/application.yml` 파일에서 다음 항목을 수정하세요:
-
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/yeongju_db
-    username: your_username
-    password: your_password
-
-app:
-  api:
-    odcloud:
-      service-key: 2a110c6a2497bd9ecae88e580f56a8ef6059a0e9d184d91eea5f4ce56ae9137f
-    dataGo:
-      service-key: 2a110c6a2497bd9ecae88e580f56a8ef6059a0e9d184d91eea5f4ce56ae9137f
-  llm:
-    gemini:
-      api-key: YOUR_GEMINI_API_KEY  # Gemini API 키 입력
-```
-
-### 4. 프로젝트 실행
+### 3. 프로젝트 실행
 
 ```bash
 # Gradle 빌드
