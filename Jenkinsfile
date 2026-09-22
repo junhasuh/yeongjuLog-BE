@@ -55,5 +55,18 @@ pipeline {
                 }
             }
         }
+        // CD 스테이지
+        stage('Deploy') {
+            steps {
+                // 5-3에서 등록한 'app-ssh' 키를 꺼내와서 임시 파일($SSH_KEY)로 만들어줌
+                withCredentials([sshUserPrivateKey(credentialsId: 'app-ssh', keyFileVariable: 'SSH_KEY')]) {
+                    sh '''
+                        ansible-playbook -i ansible/inventory.ini ansible/deploy.yml \
+                          --private-key "$SSH_KEY" \
+                          -e image_tag=$TAG
+                    '''
+                }
+            }
+        }
     }
 }
