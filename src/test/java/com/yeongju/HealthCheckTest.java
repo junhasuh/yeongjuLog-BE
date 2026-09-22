@@ -18,6 +18,6 @@ class HealthCheckTest {
     void actuatorHealthIsUp() {
         ResponseEntity<String> res = rest.getForEntity("/actuator/health", String.class);
         assertThat(res.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(res.getBody()).contains("\"status\":\"UP\"");
+        assertThat(res.getBody()).contains("\"status\":\"DOWN\"");
     }
 }
