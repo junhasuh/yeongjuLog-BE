@@ -7,8 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
-
+import org.junit.jupiter.api.Disabled;
 import static org.junit.jupiter.api.Assertions.*;
+@Disabled("CI 환경에서는 가짜 AWS 키를 사용하므로 실제 S3 연동 테스트는 제외한다.")
 
 @SpringBootTest
 public class CharacterGenerationServiceTest {

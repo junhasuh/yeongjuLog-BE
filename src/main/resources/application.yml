@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY:none}
+        secret-key: ${AWS_SECRET_KEY:none}
+      region:
+        static: ${AWS_REGION:ap-northeast-2}
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY:none}
+      secret-key: ${AWS_SECRET_KEY:none}
+    region:
+      static: ${AWS_REGION:ap-northeast-2}
+
+app:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET:none}
+      region: ${AWS_REGION:ap-northeast-2}
+      access-key: ${AWS_ACCESS_KEY:none}
+      secret-key: ${AWS_SECRET_KEY:none}
+  huggingface:
+    api-key: ${HF_API_KEY:none}
+    model: ${HF_MODEL:nerijs/pixel-art-xl}
+  api:
+    dataGo:
+      base-url: ${DATAGO_BASE_URL:https://apis.data.go.kr}
+      service-key: ${DATAGO_SERVICE_KEY:none}
+    odcloud:
+      base-url: ${ODCLOUD_BASE_URL:https://api.odcloud.kr/api}
+      service-key: ${ODCLOUD_SERVICE_KEY:none}
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-expiration-ms: 3600000
+    refresh-token-expiration-ms: 1209600000
+  llm:
+    gemini:
+      api-key: ${GEMINI_API_KEY:none}
+  oauth:
+    kakao:
+      client-id: ${KAKAO_CLIENT_ID:none}
+      redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/callback}
+      token-uri: https://kauth.kakao.com/oauth/token
+      user-info-uri: https://kapi.kakao.com/v2/user/me

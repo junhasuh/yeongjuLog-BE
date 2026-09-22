@@ -43,9 +43,10 @@ bin/
 .DS_Store
 
 ### Application ###
-application.yml
 application-local.yml
 application-prod.yml
+.env
+*.env
 
 ### Logs ###
 logs/
