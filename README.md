@@ -335,4 +335,4 @@ switch (characterType) {
 
 ## 👥 기여자
 
-- **Backend Developer**: junha seo.
+- **Backend Developer**: junha seo..
