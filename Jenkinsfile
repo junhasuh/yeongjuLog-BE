@@ -35,6 +35,24 @@ pipeline {
             }
         }
 
+        // 💡 [추가 1] SonarQube 정적 코드 분석 실행
+        stage('SonarQube') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh './gradlew sonar'
+                }
+            }
+        }
+
+        // 💡 [추가 2] 품질 게이트 검사 (불합격 시 배포 중단)
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        
         stage('Build Jar') {
             steps { 
                 // 테스트는 이미 통과했으므로 -x test로 건너뛰고 순수 jar만 빠르게 생성
