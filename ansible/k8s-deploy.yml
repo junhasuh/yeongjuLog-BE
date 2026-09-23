@@ -1,0 +1,17 @@
+- name: Rolling update on K8s
+  hosts: k8s_cp
+  tasks:
+    - block:
+        - name: 새 이미지로 롤링 업데이트 시작
+          command: kubectl set image deployment/yeongjulog app=seojunhayo/yeonjulog:{{ image_tag }}
+
+        - name: 롤아웃 완료 대기 (최대 3분)
+          command: kubectl rollout status deployment/yeongjulog --timeout=180s
+
+      rescue:
+        - name: 기동 실패 시 이전 버전으로 즉시 롤백
+          command: kubectl rollout undo deployment/yeongjulog
+
+        - name: 파이프라인 실패 처리
+          fail:
+            msg: "{{ image_tag }} rollout 실패 → 자동 undo 완료"
