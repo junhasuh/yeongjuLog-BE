@@ -128,3 +128,11 @@ jacocoTestReport {
 test {
     finalizedBy jacocoTestReport
 }
+
+
+sonar {
+    properties {
+        property "sonar.projectKey", "yeongjulog"
+        property "sonar.projectName", "yeongjulog"
+    }
+}
