@@ -19,7 +19,9 @@ spec:
     spec:
       containers:
       - name: app
-        image: seojunhayo/yeongjulog:manual
+        # 저장소 이름은 Jenkinsfile의 IMAGE(seojunhayo/yeonjulog)와 같아야 한다.
+        # 태그는 배포 때 Jenkins→Ansible이 kubectl set image로 커밋 해시 태그로 교체한다.
+        image: seojunhayo/yeonjulog:802b991
         ports:
         - containerPort: 8080
         envFrom:
