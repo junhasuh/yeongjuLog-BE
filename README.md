@@ -2,6 +2,17 @@
 
 > 영주시의 역사적 맥락과 공공데이터를 결합한 **역사 탐방 가이드** 백엔드 시스템
 
+## 이 포크에서 직접 한 작업
+
+팀 프로젝트 영주로그(원본: sunbiro/yeongjuLog-BE)의 백엔드를 포크해 CI/CD를 개인적으로 추가했습니다. 애플리케이션 기능 코드는 팀 작업입니다.
+
+- Jenkins 파이프라인: 테스트 → SonarQube 분석·품질 게이트 → JAR·Docker 이미지(커밋 해시 태그) → Ansible 배포
+- 배포 대상: EC2 Docker(ansible/deploy.yml) → Kubernetes(ansible/k8s-deploy.yml, k8s/deployment.yaml)
+- 실패 시험: 테스트 실패 시 차단, 운영 DB 환경변수 누락 시 롤백, 커버리지 기준 미달 시 배포 차단
+- Kubernetes·SonarQube 단계 기록: https://policerjack.tistory.com/2
+
+2026-09 커밋 중 작성자가 `sjh`로 표시된 것은 제 로컬 Git 설정으로 올린 커밋입니다.
+
 ---
 
 ## 프로젝트 개요
