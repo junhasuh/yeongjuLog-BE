@@ -54,4 +54,5 @@ logs/
 
 ### API Keys (보안) ###
 api-key.txt
-api-info.txt.idea/
+api-info.txt
+.idea/

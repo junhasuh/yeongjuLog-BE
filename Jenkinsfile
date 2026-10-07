@@ -24,7 +24,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                // 테스트 실행 (실패하면 파이프라인 즉시 중단!)
+                // 테스트 실행 (실패하면 이후 단계 실행 안 함)
                 sh './gradlew clean test'
             }
             post {
@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        // 💡 [추가 1] SonarQube 정적 코드 분석 실행
+        // SonarQube 정적 분석 (판정은 다음 Quality Gate 단계)
         stage('SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        // 💡 [추가 2] 품질 게이트 검사 (불합격 시 배포 중단)
+        // 품질 게이트 미달이면 파이프라인 중단
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
@@ -62,7 +62,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                // 5-3에서 등록한 'dockerhub' 자격증명에서 안전하게 아이디/토큰을 꺼내옴
+                // Jenkins Credentials(dockerhub)에서 Docker Hub 계정·토큰 주입
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DH_USER', passwordVariable: 'DH_TOKEN')]) {
                     sh '''
                         echo "$DH_TOKEN" | docker login -u "$DH_USER" --password-stdin
@@ -76,7 +76,7 @@ pipeline {
         // CD 스테이지
         stage('Deploy') {
             steps {
-                // 5-3에서 등록한 'app-ssh' 키를 꺼내와서 임시 파일($SSH_KEY)로 만들어줌
+                // Jenkins Credentials(app-ssh)의 SSH 키를 임시 파일로 주입
                 withCredentials([sshUserPrivateKey(credentialsId: 'app-ssh', keyFileVariable: 'SSH_KEY')]) {
                     sh '''
                         ansible-playbook -i ansible/inventory.ini ansible/k8s-deploy.yml \
